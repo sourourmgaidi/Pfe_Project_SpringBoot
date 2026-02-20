@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table(name = "partenaires_locaux")
 @Data
@@ -68,6 +69,13 @@ public class PartenaireLocal {
 
     @Column(name = "taxe_professionnelle")
     private String taxeProfessionnelle;
+
+    // OneToMany with TouristService
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
+    private List<TouristService> touristServices;
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
+    private List<CollaborationService> collaborationServices;
+
 
     public Long getId() {
         return id;

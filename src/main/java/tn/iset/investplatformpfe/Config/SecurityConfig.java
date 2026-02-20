@@ -65,6 +65,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/international-companies/logout").permitAll()
                         .requestMatchers("/api/international-companies/forgot-password").permitAll()
                         .requestMatchers("/api/international-companies/reset-password").permitAll()
+                        .requestMatchers("/api/collaboration-services/**").permitAll()
 
                         // Toute autre requête nécessite une authentification
                         .anyRequest().authenticated()
