@@ -6,7 +6,7 @@ import tn.iset.investplatformpfe.Entity.Notification;
 import tn.iset.investplatformpfe.Entity.Role;
 import tn.iset.investplatformpfe.Entity.CollaborationService;
 import tn.iset.investplatformpfe.Repository.NotificationRepository;
-
+import tn.iset.investplatformpfe.Entity.InvestmentService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -202,5 +202,56 @@ public class NotificationService {
     // ========================================
     public List<Notification> getAllNotifications() {
         return notificationRepository.findAll();
+    }
+
+    // ========================================
+// NOTIFICATION: Nouveau service d'investissement créé (vers ADMIN)
+// ========================================
+    @Transactional
+    public void notifyAdminNewInvestmentService(InvestmentService service) {
+
+        String title = "Nouveau service d'investissement en attente";
+        String message = String.format("Le service d'investissement '%s' créé par %s %s est en attente d'approbation",
+                service.getTitle(),
+                service.getProvider().getPrenom(),
+                service.getProvider().getNom());
+
+        createNotificationForRole(title, message, Role.ADMIN, service.getId());
+    }
+
+    // ========================================
+// NOTIFICATION: Service d'investissement approuvé
+// ========================================
+    @Transactional
+    public void notifyLocalPartnerInvestmentApproved(InvestmentService service) {
+        String title = "Service d'investissement approuvé !";
+        String message = String.format("Votre service d'investissement '%s' a été approuvé et est maintenant visible",
+                service.getTitle());
+
+        createNotificationForUser(
+                title,
+                message,
+                Role.LOCAL_PARTNER,
+                service.getProvider().getId(),
+                service.getId()
+        );
+    }
+
+    // ========================================
+// NOTIFICATION: Service d'investissement rejeté
+// ========================================
+    @Transactional
+    public void notifyLocalPartnerInvestmentRejected(InvestmentService service) {
+        String title = "Service d'investissement rejeté";
+        String message = String.format("Votre service d'investissement '%s' a été rejeté. Contactez l'admin pour plus d'informations.",
+                service.getTitle());
+
+        createNotificationForUser(
+                title,
+                message,
+                Role.LOCAL_PARTNER,
+                service.getProvider().getId(),
+                service.getId()
+        );
     }
 }

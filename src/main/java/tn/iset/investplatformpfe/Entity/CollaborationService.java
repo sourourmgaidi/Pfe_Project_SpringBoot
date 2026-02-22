@@ -9,10 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "collaboration_services")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+
 public class CollaborationService {
 
     // ===============================
@@ -32,8 +29,8 @@ public class CollaborationService {
     @Column(length = 2000)
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
     @ManyToOne
@@ -87,7 +84,6 @@ public class CollaborationService {
     // ===============================
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
     private ServiceStatus status = ServiceStatus.PENDING;
 
 
@@ -102,6 +98,38 @@ public class CollaborationService {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
+    }
+
+    // Constructeur par défaut (PUBLIC)
+    public CollaborationService() {
+    }
+
+    // Constructeur avec tous les paramètres (PUBLIC)
+    public CollaborationService(Long id, String name, String description,
+                                Region region, PartenaireLocal provider,
+                                BigDecimal price, Availability availability,
+                                LocalDate publicationDate, String contactPerson,
+                                String collaborationType, String activityDomain,
+                                String expectedBenefits, List<String> requiredSkills,
+                                String collaborationDuration, String address,
+                                ServiceStatus status, LocalDateTime createdAt) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.region = region;
+        this.provider = provider;
+        this.price = price;
+        this.availability = availability;
+        this.publicationDate = publicationDate;
+        this.contactPerson = contactPerson;
+        this.collaborationType = collaborationType;
+        this.activityDomain = activityDomain;
+        this.expectedBenefits = expectedBenefits;
+        this.requiredSkills = requiredSkills;
+        this.collaborationDuration = collaborationDuration;
+        this.address = address;
+        this.status = status;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -127,16 +155,6 @@ public class CollaborationService {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
-
 
     public BigDecimal getPrice() {
         return price;
@@ -210,6 +228,14 @@ public class CollaborationService {
         this.collaborationDuration = collaborationDuration;
     }
 
+    // Ajoutez cette méthode dans votre classe CollaborationService existante
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
     public String getAddress() {
         return address;
     }

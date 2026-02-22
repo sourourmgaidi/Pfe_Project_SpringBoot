@@ -2,11 +2,7 @@ package tn.iset.investplatformpfe.Service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.iset.investplatformpfe.Entity.CollaborationService;
-import tn.iset.investplatformpfe.Entity.Region;
-import tn.iset.investplatformpfe.Entity.Availability;
-import tn.iset.investplatformpfe.Entity.ServiceStatus;
-import tn.iset.investplatformpfe.Entity.PartenaireLocal;
+import tn.iset.investplatformpfe.Entity.*;
 import tn.iset.investplatformpfe.Repository.CollaborationServiceRepository;
 import tn.iset.investplatformpfe.Repository.PartenaireLocalRepository;
 

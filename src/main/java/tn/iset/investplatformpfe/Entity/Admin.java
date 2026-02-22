@@ -51,6 +51,9 @@ public class Admin {
     @Column(nullable = false)
     private Role role = Role.ADMIN;
 
+    @OneToMany(mappedBy = "admin")
+    private List<Notification> notifications;
+
     public Long getId() {
         return id;
     }

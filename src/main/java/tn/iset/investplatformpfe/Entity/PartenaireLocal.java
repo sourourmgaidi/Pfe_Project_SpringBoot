@@ -1,5 +1,6 @@
 package tn.iset.investplatformpfe.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Table(name = "partenaires_locaux")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -47,6 +47,7 @@ public class PartenaireLocal {
 
     private Boolean actif = true;
 
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
 
@@ -73,8 +74,20 @@ public class PartenaireLocal {
     // OneToMany with TouristService
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
     private List<TouristService> touristServices;
+
     @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
     private List<CollaborationService> collaborationServices;
+
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL)
+    private List<InvestmentService> investmentServices;
+
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+    @OneToMany(mappedBy = "partenaire", cascade = CascadeType.ALL)
+    @JsonIgnore  // ← AJOUTER CETTE ANNOTATION
+    private List<Conversation> conversations;
 
 
     public Long getId() {
@@ -203,5 +216,13 @@ public class PartenaireLocal {
 
     public void setTaxeProfessionnelle(String taxeProfessionnelle) {
         this.taxeProfessionnelle = taxeProfessionnelle;
+    }
+    // Ajoutez :
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }

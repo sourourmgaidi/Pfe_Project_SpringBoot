@@ -33,7 +33,8 @@ public class TouristService {
     @Column(length = 2000)
     private String description;
 
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
 

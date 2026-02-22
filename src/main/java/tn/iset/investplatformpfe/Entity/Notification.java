@@ -45,6 +45,19 @@ public class Notification {
     @Column(name = "service_id")
     private Long serviceId;
 
+    // Relations (CORRIGÉES)
+    @ManyToOne
+    @JoinColumn(name = "investment_service_id")  // Relation avec InvestmentService
+    private InvestmentService investmentService;
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")  // Admin qui reçoit
+    private Admin admin;
+
+    @ManyToOne
+    @JoinColumn(name = "local_partner_id")  // Partenaire qui reçoit
+    private PartenaireLocal localPartner;
+
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();

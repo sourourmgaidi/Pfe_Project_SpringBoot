@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Table(name = "investors")
@@ -68,8 +69,8 @@ public class Investor {
     @Column(name = "linkedin_profile")
     private String linkedinProfile;
 
-
-
+    @ManyToMany(mappedBy = "interestedInvestors")
+    private List<InvestmentService> interestedInvestmentServices;
 
 
     public String getLastName() {

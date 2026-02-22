@@ -1,44 +1,164 @@
 package tn.iset.investplatformpfe.Entity;
-public enum Region {
-    // Grand Tunis
-    TUNIS,
-    ARIANA,
-    BEN_AROUS,
-    MANOUBA,
 
-    // Nord-Est
-    NABEUL,
-    ZAGHOUAN,
-    BIZERTE,
+import jakarta.persistence.*;
+import lombok.*;
+import java.util.List;
 
-    // Nord-Ouest
-    BEJA,
-    JENDOUBA,
-    KEF,
-    SILIANA,
+@Entity
+@Table(name = "regions")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Region {
 
-    // Centre-Est
-    SOUSSE,
-    MONASTIR,
-    MAHDIA,
-    SFAX,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    // Centre-Ouest
-    KAIROUAN,
-    KASSERINE,
-    SIDI_BOUZID,
+    @Column(nullable = false, unique = true)
+    private String name;  // Tunis, Sousse, Djerba...
 
-    // Sud-Est
-    GABES,
-    MEDENINE,
-    TATAOUINE,
+    @Column(length = 1000)
+    private String economicDescription;
 
-    // Sud-Ouest
-    GAFSA,
-    TOZEUR,
-    KEBILI,
+    @ManyToMany
+    @JoinTable(
+            name = "region_economic_sectors",
+            joinColumns = @JoinColumn(name = "region_id"),
+            inverseJoinColumns = @JoinColumn(name = "sector_id")
+    )
+    private List<EconomicSector> potentialSectors;
 
-    // Spécial
-    NATIONWIDE,  // Tout le pays
-    INTERNATIONAL  // International
+    @Column(length = 1000)
+    private String taxIncentives;
+
+    @Column(length = 1000)
+    private String infrastructure;
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "region_business_opportunities",
+            joinColumns = @JoinColumn(name = "region_id"),
+            inverseJoinColumns = @JoinColumn(name = "opportunity_id")
+    )
+    private List<BusinessOpportunity> businessOpportunities;
+
+    @OneToMany(mappedBy = "region")
+    private List<CollaborationService> collaborations;
+
+    @OneToMany(mappedBy = "region")
+    private List<PartenaireLocal> localPartners;
+
+    @ManyToMany
+    @JoinTable(
+            name = "region_local_products",
+            joinColumns = @JoinColumn(name = "region_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<LocalProduct> localProducts;
+
+    // Dans Region.java, ajoutez :
+    @OneToMany(mappedBy = "region")
+    private List<InvestmentService> investmentServices;
+    // Optional fields from the enum
+    private String code;  // TUNIS, ARIANA, BEN_AROUS, etc.
+
+    private String geographicalZone;  // Grand Tunis, Nord-Est, etc.
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEconomicDescription() {
+        return economicDescription;
+    }
+
+    public void setEconomicDescription(String economicDescription) {
+        this.economicDescription = economicDescription;
+    }
+
+    public List<EconomicSector> getPotentialSectors() {
+        return potentialSectors;
+    }
+
+    public void setPotentialSectors(List<EconomicSector> potentialSectors) {
+        this.potentialSectors = potentialSectors;
+    }
+
+    public String getTaxIncentives() {
+        return taxIncentives;
+    }
+
+    public void setTaxIncentives(String taxIncentives) {
+        this.taxIncentives = taxIncentives;
+    }
+
+    public String getInfrastructure() {
+        return infrastructure;
+    }
+
+    public void setInfrastructure(String infrastructure) {
+        this.infrastructure = infrastructure;
+    }
+
+    public List<BusinessOpportunity> getBusinessOpportunities() {
+        return businessOpportunities;
+    }
+
+    public void setBusinessOpportunities(List<BusinessOpportunity> businessOpportunities) {
+        this.businessOpportunities = businessOpportunities;
+    }
+
+    public List<CollaborationService> getCollaborations() {
+        return collaborations;
+    }
+
+    public void setCollaborations(List<CollaborationService> collaborations) {
+        this.collaborations = collaborations;
+    }
+
+    public List<PartenaireLocal> getLocalPartners() {
+        return localPartners;
+    }
+
+    public void setLocalPartners(List<PartenaireLocal> localPartners) {
+        this.localPartners = localPartners;
+    }
+
+    public List<LocalProduct> getLocalProducts() {
+        return localProducts;
+    }
+
+    public void setLocalProducts(List<LocalProduct> localProducts) {
+        this.localProducts = localProducts;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getGeographicalZone() {
+        return geographicalZone;
+    }
+
+    public void setGeographicalZone(String geographicalZone) {
+        this.geographicalZone = geographicalZone;
+    }
 }
